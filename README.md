@@ -34,9 +34,8 @@
 
 ```
 src/OrderExecution.sol
-    ├── src/interfaces/IAccount.sol
-    ├── src/interfaces/IPerpsV2ExchangeRate.sol
-    │   └── src/interfaces/IPyth.sol
+├── src/interfaces/IAccount.sol
+└── src/interfaces/IPerpsV2ExchangeRate.sol
     └── src/interfaces/IPyth.sol
 ```
 
