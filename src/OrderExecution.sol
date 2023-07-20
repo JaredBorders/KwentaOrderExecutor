@@ -2,8 +2,7 @@
 pragma solidity 0.8.18;
 
 import {IAccount} from "src/interfaces/IAccount.sol";
-import {IPerpsV2ExchangeRate} from "src/interfaces/IPerpsV2ExchangeRate.sol";
-import {IPyth} from "src/interfaces/IPyth.sol";
+import {IPerpsV2ExchangeRate, IPyth} from "src/interfaces/IPerpsV2ExchangeRate.sol";
 
 /// @title utility contract for executing conditional orders
 /// @author JaredBorders (jaredborders@pm.me)
