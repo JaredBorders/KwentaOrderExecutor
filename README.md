@@ -4,44 +4,40 @@
 [![Foundry][foundry-badge]][foundry] 
 [![License: MIT][license-badge]][license]
 
-[gha]: https://github.com/Kwenta/foundry-scaffold/actions
-[gha-badge]: https://github.com/Kwenta/foundry-scaffold/actions/workflows/test.yml/badge.svg
+[gha]: https://github.com/JaredBorders/KwentaOrderExecutor/actions
+[gha-badge]: https://github.com/JaredBorders/KwentaOrderExecutor/actions/workflows/test.yml/badge.svg
 [foundry]: https://getfoundry.sh/
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
 [license]: https://opensource.org/licenses/MIT
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-Template for a foundry project.
+## How to use
+1. Clone this repo
+2. Set up your environment variables (see `.env.example`)
+3. Ensure you have foundry installed (see https://book.getfoundry.sh/getting-started/installation)
+
+### Deploying to Optimism
+1. Navigate to `script/Deploy.Optimism.s.sol`
+2. Update 'beneficiary' to your address (or an address you want to use to withdraw accrued fees) **on Optimism**
+3. Update 'perpsV2ExchangeRate' to the address of the PerpetualsV2ExchangeRate contract **on Optimism**
+4. Follow the steps in the file to deploy the contract
+5. Add the deployed contract address to your README under "Deployment Addresses"
+
+### Deploying to Optimism Goerli
+1. Navigate to `script/Deploy.OptimismGoerli.s.sol`
+2. Update 'beneficiary' to your address (or an address you want to use to withdraw accrued fees) **on Optimism Goerli**
+3. Update 'perpsV2ExchangeRate' to the address of the PerpetualsV2ExchangeRate contract **on Optimism Goerli**
+4. Follow the steps in the file to deploy the contract
+5. Add the deployed contract address to your README under "Deployment Addresses"
 
 ## Contracts
 
 ```
-script/TestnetDeploy.s.sol ^0.8.13
-└── lib/forge-std/src/Script.sol >=0.6.0 <0.9.0
-    ├── lib/forge-std/src/console.sol >=0.4.22 <0.9.0
-    ├── lib/forge-std/src/console2.sol >=0.4.22 <0.9.0
-    └── lib/forge-std/src/StdJson.sol >=0.6.0 <0.9.0
-        └── lib/forge-std/src/Vm.sol >=0.6.0 <0.9.0
-src/Counter.sol ^0.8.13
-test/Counter.t.sol ^0.8.13
-├── lib/forge-std/src/Test.sol >=0.6.0 <0.9.0
-│   ├── lib/forge-std/src/Script.sol >=0.6.0 <0.9.0 (*)
-│   └── lib/forge-std/lib/ds-test/src/test.sol >=0.5.0
-└── src/Counter.sol ^0.8.13
-```
-
-## Code Coverage
-
-```
-+----------------------------+---------------+---------------+---------------+---------------+
-| File                       | % Lines       | % Statements  | % Branches    | % Funcs       |
-+============================================================================================+
-| script/TestnetDeploy.s.sol | 0.00% (0/3)   | 0.00% (0/4)   | 100.00% (0/0) | 0.00% (0/1)   |
-|----------------------------+---------------+---------------+---------------+---------------|
-| src/Counter.sol            | 100.00% (2/2) | 100.00% (2/2) | 100.00% (0/0) | 100.00% (2/2) |
-|----------------------------+---------------+---------------+---------------+---------------|
-| Total                      | 40.00% (2/5)  | 33.33% (2/6)  | 100.00% (0/0) | 66.67% (2/3)  |
-+----------------------------+---------------+---------------+---------------+---------------+
+src/OrderExecution.sol
+    ├── src/interfaces/IAccount.sol
+    ├── src/interfaces/IPerpsV2ExchangeRate.sol
+    │   └── src/interfaces/IPyth.sol
+    └── src/interfaces/IPyth.sol
 ```
 
 ## Deployment Addresses
