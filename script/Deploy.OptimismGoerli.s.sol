@@ -16,7 +16,7 @@ import {OrderExecution} from "src/OrderExecution.sol";
  */
 
 contract Deploy is Script {
-    address payable public beneficiary = payable(address(0));
+    address payable public owner = payable(address(0));
     address public perpsV2ExchangeRate = address(0);
 
     OrderExecution public orderExecution;
@@ -26,7 +26,7 @@ contract Deploy is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         orderExecution = new OrderExecution({
-            _beneficiary: beneficiary,
+            _owner: owner,
             _perpsV2ExchangeRate: perpsV2ExchangeRate
         });
 

@@ -20,7 +20,7 @@ contract OrderExecutionTest is Test {
     function test_WithdrawEth() public {
         vm.deal(address(orderExecution), 1 ether);
         uint256 balanceBefore = address(this).balance;
-        orderExecution.withdrawEth();
+        orderExecution.withdrawEth(payable(address(this)));
         uint256 balanceAfter = address(this).balance;
         assertGt(balanceAfter, balanceBefore);
     }

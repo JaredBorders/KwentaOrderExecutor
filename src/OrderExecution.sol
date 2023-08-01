@@ -7,14 +7,20 @@ import {IPerpsV2ExchangeRate, IPyth} from "src/interfaces/IPerpsV2ExchangeRate.s
 /// @title utility contract for executing conditional orders
 /// @author JaredBorders (jaredborders@pm.me)
 contract OrderExecution {
-    address payable public immutable BENEFICIARY;
+    address internal immutable OWNER;
     IPerpsV2ExchangeRate internal immutable PERPS_V2_EXCHANGE_RATE;
     IPyth internal immutable ORACLE;
 
     error PythPriceUpdateFailed();
+    error OnlyOwner();
 
-    constructor(address payable _beneficiary, address _perpsV2ExchangeRate) {
-        BENEFICIARY = _beneficiary;
+    modifier onlyOwner() {
+        if (msg.sender != OWNER) revert OnlyOwner();
+        _;
+    }
+
+    constructor(address _owner, address _perpsV2ExchangeRate) {
+        OWNER = _owner;
         PERPS_V2_EXCHANGE_RATE = IPerpsV2ExchangeRate(_perpsV2ExchangeRate);
         ORACLE = PERPS_V2_EXCHANGE_RATE.offchainOracle();
     }
@@ -40,16 +46,11 @@ contract OrderExecution {
         uint256 fee = ORACLE.getUpdateFee(priceUpdateData);
 
         // try to update the price data (and pay the fee)
+        /// @dev excess value is *not* automatically refunded
+        /// and the caller must withdraw it manually
         try ORACLE.updatePriceFeeds{value: fee}(priceUpdateData) {}
         catch {
             revert PythPriceUpdateFailed();
-        }
-
-        uint256 refund = msg.value - fee;
-        if (refund > 0) {
-            // refund caller the unused value
-            (bool success,) = msg.sender.call{value: refund}("");
-            assert(success);
         }
     }
 
@@ -74,10 +75,11 @@ contract OrderExecution {
                       MODIFY CONTRACT ETH BALANCE
     //////////////////////////////////////////////////////////////*/
 
-    /// @notice withdraws ETH from the contract to the BENEFICIARY
+    /// @notice withdraws ETH from the contract to the _beneficiary
     /// @dev reverts if the transfer fails
-    function withdrawEth() external {
-        (bool success,) = BENEFICIARY.call{value: address(this).balance}("");
+    /// @param _beneficiary: address to send ETH to
+    function withdrawEth(address payable _beneficiary) external onlyOwner {
+        (bool success,) = _beneficiary.call{value: address(this).balance}("");
         assert(success);
     }
 

@@ -18,14 +18,14 @@
 
 ### Deploying to Optimism
 1. Navigate to `script/Deploy.Optimism.s.sol`
-2. Update 'beneficiary' to your address (or an address you want to use to withdraw accrued fees) **on Optimism**
+2. Update 'owner' to your address (or an address you want to use to call withdraw accrued fees) **on Optimism**
 3. Update 'perpsV2ExchangeRate' to the address of the PerpetualsV2ExchangeRate contract **on Optimism**
 4. Follow the steps in the file to deploy the contract
 5. Add the deployed contract address to your README under "Deployment Addresses"
 
 ### Deploying to Optimism Goerli
 1. Navigate to `script/Deploy.OptimismGoerli.s.sol`
-2. Update 'beneficiary' to your address (or an address you want to use to withdraw accrued fees) **on Optimism Goerli**
+2. Update 'owner' to your address (or an address you want to use to call withdraw accrued fees) **on Optimism Goerli**
 3. Update 'perpsV2ExchangeRate' to the address of the PerpetualsV2ExchangeRate contract **on Optimism Goerli**
 4. Follow the steps in the file to deploy the contract
 5. Add the deployed contract address to your README under "Deployment Addresses"
