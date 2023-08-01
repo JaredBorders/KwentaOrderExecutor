@@ -17,11 +17,19 @@ contract OrderExecutionTest is Test {
 
     receive() external payable {}
 
-    function testWithdrawEth() public {
+    function test_WithdrawEth() public {
         vm.deal(address(orderExecution), 1 ether);
         uint256 balanceBefore = address(this).balance;
         orderExecution.withdrawEth();
         uint256 balanceAfter = address(this).balance;
+        assertGt(balanceAfter, balanceBefore);
+    }
+
+    function test_DepositEth() public {
+        uint256 balanceBefore = address(orderExecution).balance;
+        (bool s,) = address(orderExecution).call{value: 1 ether}("");
+        assert(s);
+        uint256 balanceAfter = address(orderExecution).balance;
         assertGt(balanceAfter, balanceBefore);
     }
 }
