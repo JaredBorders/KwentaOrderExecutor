@@ -33,13 +33,6 @@ contract OrderExecution {
         executeOrders(accounts, ids);
     }
 
-    /// @notice withdraws ETH from the contract to the BENEFICIARY
-    /// @dev reverts if the transfer fails
-    function withdrawEth() external {
-        (bool success,) = BENEFICIARY.call{value: address(this).balance}("");
-        assert(success);
-    }
-
     /// @dev updates the Pyth oracle price feed
     /// @dev refunds the caller any unused value not used to update feed
     /// @param priceUpdateData: array of price update data
@@ -76,4 +69,17 @@ contract OrderExecution {
             IAccount(accounts[i]).executeConditionalOrder(ids[i]);
         } while (i != 0);
     }
+
+    /*//////////////////////////////////////////////////////////////
+                      MODIFY CONTRACT ETH BALANCE
+    //////////////////////////////////////////////////////////////*/
+
+    /// @notice withdraws ETH from the contract to the BENEFICIARY
+    /// @dev reverts if the transfer fails
+    function withdrawEth() external {
+        (bool success,) = BENEFICIARY.call{value: address(this).balance}("");
+        assert(success);
+    }
+
+    receive() external payable {}
 }
