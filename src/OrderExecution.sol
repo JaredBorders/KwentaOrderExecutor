@@ -39,6 +39,20 @@ contract OrderExecution {
         executeOrders(accounts, ids);
     }
 
+    /// @notice updates the Pyth oracle price feed and executes a single conditional order
+    /// @dev reverts if the Pyth price update fails
+    /// @param priceUpdateData: array of price update data
+    /// @param account: SM account address
+    /// @param id: conditional order Id
+    function updatePriceThenExecuteOrder(
+        bytes[] calldata priceUpdateData,
+        address account,
+        uint256 id
+    ) external payable {
+        updatePythPrice(priceUpdateData);
+        IAccount(account).executeConditionalOrder(id);
+    }
+
     /// @dev updates the Pyth oracle price feed
     /// @dev refunds the caller any unused value not used to update feed
     /// @param priceUpdateData: array of price update data
