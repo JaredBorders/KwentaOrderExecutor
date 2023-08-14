@@ -78,9 +78,6 @@ contract OrderExecution {
                 --i;
             }
 
-            (bool canExec,) = IAccount(accounts[i]).checker(ids[i]);
-            if (!canExec) continue; // skip to next order without reverting
-
             IAccount(accounts[i]).executeConditionalOrder(ids[i]);
         } while (i != 0);
     }
