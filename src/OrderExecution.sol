@@ -11,8 +11,8 @@ contract OrderExecution {
     IPerpsV2ExchangeRate internal immutable PERPS_V2_EXCHANGE_RATE;
     IPyth internal immutable ORACLE;
 
-    error PythPriceUpdateFailed();
-    error OnlyOwner();
+    error PythPriceUpdateFailed(); // 0xa9b19918
+    error OnlyOwner(); // 0x5fc483c5
 
     modifier onlyOwner() {
         if (msg.sender != OWNER) revert OnlyOwner();
