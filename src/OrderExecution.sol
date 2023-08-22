@@ -4,11 +4,10 @@ pragma solidity 0.8.18;
 import {IAccount} from "src/interfaces/IAccount.sol";
 import {IPerpsV2ExchangeRate, IPyth} from "src/interfaces/IPerpsV2ExchangeRate.sol";
 
-/// @title utility contract for executing conditional orders
+/// @title Kwenta Conditional Order Executor
 /// @author JaredBorders (jaredborders@pm.me)
 contract OrderExecution {
     address internal immutable OWNER;
-    IPerpsV2ExchangeRate internal immutable PERPS_V2_EXCHANGE_RATE;
     IPyth internal immutable ORACLE;
 
     error PythPriceUpdateFailed(); // 0xa9b19918
@@ -21,8 +20,7 @@ contract OrderExecution {
 
     constructor(address _owner, address _perpsV2ExchangeRate) {
         OWNER = _owner;
-        PERPS_V2_EXCHANGE_RATE = IPerpsV2ExchangeRate(_perpsV2ExchangeRate);
-        ORACLE = PERPS_V2_EXCHANGE_RATE.offchainOracle();
+        ORACLE = IPerpsV2ExchangeRate(_perpsV2ExchangeRate).offchainOracle();
     }
 
     /// @notice updates the Pyth oracle price feed and executes a batch of conditional orders
@@ -44,11 +42,10 @@ contract OrderExecution {
     /// @param priceUpdateData: array of price update data
     /// @param account: SM account address
     /// @param id: conditional order Id
-    function updatePriceThenExecuteOrder(
-        bytes[] calldata priceUpdateData,
-        address account,
-        uint256 id
-    ) external payable {
+    function updatePriceThenExecuteOrder(bytes[] calldata priceUpdateData, address account, uint256 id)
+        external
+        payable
+    {
         updatePythPrice(priceUpdateData);
         IAccount(account).executeConditionalOrder(id);
     }

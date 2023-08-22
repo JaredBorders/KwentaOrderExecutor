@@ -16,8 +16,8 @@ import {OrderExecution} from "src/OrderExecution.sol";
  */
 
 contract Deploy is Script {
-    address payable public owner = payable(address(0));
-    address public perpsV2ExchangeRate = address(0);
+    address payable public owner = payable(0xC78a0fc7887844775f07191Ca921065ecc9E6F6E);
+    address public perpsV2ExchangeRate = 0x2C15259D4886e2C0946f9aB7a5E389c86b3c3b04;
 
     OrderExecution public orderExecution;
 
